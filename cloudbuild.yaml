@@ -1,7 +1,6 @@
 steps:
   # Build the Docker image with Artifact Registry path
   - name: 'gcr.io/cloud-builders/docker'
-    dir: 'Dcube.Quoestionnaire.Ui'
     args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/x/test:$COMMIT_SHA', '.']
 
   # Push the image
