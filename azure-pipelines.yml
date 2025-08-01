@@ -1,0 +1,38 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-2019'
+
+stages:
+  - stage: build
+    jobs:
+      - job:
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '18.19.0'
+            displayName: 'Install Node.js'
+
+          - task: Npm@1
+            displayName: 'npm install'
+            inputs:
+              workingDir: 'Dcube.Quoestionnaire.Ui'
+              verbose: false
+          
+          - task: Npm@1
+            displayName: 'build'
+            inputs:
+              command: custom
+              workingDir: 'Dcube.Quoestionnaire.Ui'
+              verbose: false
+              customCommand: 'run build'
+              
+          - task: ArchiveFiles@2
+            displayName: 'Archive files'
+            inputs:
+              rootFolderOrFile: 'Dcube.Quoestionnaire.Ui/dist/qst'
+              includeRootFolder: false
+          
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish artifacts: drop'
